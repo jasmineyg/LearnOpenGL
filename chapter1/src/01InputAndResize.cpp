@@ -25,7 +25,9 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 void process_input(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+        glfwSetWindowShouldClose(window, true); //按下esc后退出渲染循环 关闭窗口
+    else if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+        std::cout<<"aaa"<<std::endl;
 }
 
 auto main() -> int
