@@ -23,4 +23,5 @@ git clone --recursive https://github.com/BFU-Graphics/LearnOpenGL.git
 1. Open Project in Clion
 2. Set Build Type to Release
 3. <u>Build</u> -> <u>Build Project</u>
+4. 111
 
