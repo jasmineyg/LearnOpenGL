@@ -11,9 +11,9 @@ auto pass_geometry_data_to_GPU(float vertices_array[], int vertices_array_size, 
 
 float vertices[] = {
         // positions         // colors
-        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom left
-        0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f   // top
+        0.5f, -0.5f, 0.0f, 1.0f, 0.964f, 0.561f,  // bottom right
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.757f, 0.757f,  // bottom left
+        0.0f, 0.5f, 0.0f, 0.776f, 0.886f, 1.0f   // top
 
 };
 unsigned int indices[] = {  // note that we start from 0!
@@ -30,7 +30,7 @@ unsigned int indices[] = {  // note that we start from 0!
 auto main() -> int
 {
     init_glfw();
-    auto *window = create_window(800, 600);
+    auto *window = create_window(1000, 800);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     init_glad();
 
@@ -46,7 +46,7 @@ auto main() -> int
     while (!glfwWindowShouldClose(window))
     {
         process_input(window);
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClearColor(0.756f, 1.0f, 0.756f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // -------------------- NEW START --------------------
@@ -54,6 +54,8 @@ auto main() -> int
          * 指定使用我们的Shader来绘制
          */
         shader.use();
+        float offset = 0.5f;
+        shader.set_float("xoffset",offset);
         // -------------------- NEW END --------------------
         glBindVertexArray(triangle_VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
