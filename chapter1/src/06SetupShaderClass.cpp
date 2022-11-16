@@ -15,6 +15,8 @@ float vertices[] = {
         -0.5f, -0.5f, 0.0f, 1.0f, 0.757f, 0.757f,  // bottom left
         0.0f, 0.5f, 0.0f, 0.776f, 0.886f, 1.0f   // top
 
+        //左下角坐标（-0.5，-0.5，0.0）小于0，颜色0以下为黑色，故左下角为黑色
+
 };
 unsigned int indices[] = {  // note that we start from 0!
         0, 1, 2,  // first Triangle
