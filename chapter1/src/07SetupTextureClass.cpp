@@ -13,13 +13,15 @@ auto pass_geometry_data_to_GPU(float vertices_array[], int vertices_array_size, 
  * 更新vertices，指定纹理坐标
  */
 float vertices[] = {
-        // positions         // colors         // texture coords
+        // positions                   // colors                      // texture coords
         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // bottom right
         -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom left
-        0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f   // top
+        -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,   //top left
+        0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f   // top right
 };
 unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 2,  // first Triangle
+        0, 1, 3,// first Triangle
+        1,2,3
 };
 
 /**
@@ -77,7 +79,7 @@ auto main() -> int
     init_glad();
 
     Shader shader(MY_SHADER_DIR + std::string("07shader_vertex.glsl"), MY_SHADER_DIR + std::string("07shader_fragment.glsl"));
-    Texture texture(MY_TEXTURE_DIR + std::string("wall.jpg"));
+    Texture texture(MY_TEXTURE_DIR + std::string("container.jpg"));
     unsigned int triangle_VAO = pass_geometry_data_to_GPU(vertices, sizeof(vertices), indices, sizeof(indices));
 
     while (!glfwWindowShouldClose(window))
