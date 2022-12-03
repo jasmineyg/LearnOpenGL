@@ -26,7 +26,7 @@ auto main() -> int
     Shader shader(MY_SHADER_DIR + std::string("07shader_vertex.glsl"), MY_SHADER_DIR + std::string("07shader_fragment.glsl"));
 
     std::array<float, 24> vertices = {
-            // positions         // colors         // texture coords
+            // positions       // colors         // texture coords
             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // bottom right
             -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom left
             0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f   // top

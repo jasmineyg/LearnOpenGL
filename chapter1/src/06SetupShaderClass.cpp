@@ -10,7 +10,7 @@ void process_input(GLFWwindow *window);
 auto pass_geometry_data_to_GPU(float vertices_array[], int vertices_array_size, unsigned int indices_array[], int indices_array_size) -> unsigned int;
 
 float vertices[] = {
-        // positions         // colors
+        // positions                // colors
         0.5f, -0.5f, 0.0f, 1.0f, 0.964f, 0.561f,  // bottom right
         -0.5f, -0.5f, 0.0f, 1.0f, 0.757f, 0.757f,  // bottom left
         0.0f, 0.5f, 0.0f, 0.776f, 0.886f, 1.0f   // top

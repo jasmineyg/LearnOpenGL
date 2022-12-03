@@ -14,12 +14,23 @@ auto pass_geometry_data_to_GPU(float vertices_array[], int vertices_array_size, 
  */
 float vertices[] = {
         // positions                   // colors                      // texture coords
-        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
+        0.8f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
         -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, // bottom left
         -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,   //top left
         0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f   // top right
 };
+float vertices1[] = {
+        // positions                   // colors                      // texture coords
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, // bottom left
+        -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,   //top left
+        0.8f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f   // top right
+};
 unsigned int indices[] = {  // note that we start from 0!
+        3,0,2,// first Triangle
+        0,1,2
+};
+unsigned int indices1[] = {  // note that we start from 0!
         3,0,2,// first Triangle
         0,1,2
 };
@@ -70,6 +81,7 @@ auto pass_geometry_data_to_GPU(float vertices_array[], int vertices_array_size, 
  * 同样的，在下一章，我们也会把Texture类写到单独的头文件移动到include文件夹下，供以后我们直接include使用
  */
 #include "../include/texture.h"
+#include "stb_image.h"
 
 auto main() -> int
 {
@@ -77,11 +89,14 @@ auto main() -> int
     auto *window = create_window(800, 600);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     init_glad();
-
+    stbi_set_flip_vertically_on_load(true);
     Shader shader(MY_SHADER_DIR + std::string("07shader_vertex.glsl"), MY_SHADER_DIR + std::string("07shader_fragment.glsl"));
-    Texture texture(MY_TEXTURE_DIR + std::string("container.jpg"));
+    shader.set_int("texture1", 0);
+    shader.set_int("texture2", 1); // 或者使用着色器类设置
+    Texture texture1(MY_TEXTURE_DIR + std::string("container.jpg"));
+    Texture texture2(MY_TEXTURE_DIR + std::string("awesomeface.jpg"));
     unsigned int triangle_VAO = pass_geometry_data_to_GPU(vertices, sizeof(vertices), indices, sizeof(indices));
-
+    unsigned int triangle_VAO1 = pass_geometry_data_to_GPU(vertices1, sizeof(vertices1), indices1, sizeof(indices1));
     while (!glfwWindowShouldClose(window))
     {
         process_input(window);
@@ -89,8 +104,11 @@ auto main() -> int
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.use();
-        texture.bind(); // 在绘制之前要绑定一下texture，告诉OpenGL我们要使用这个texture
+        texture1.bind(); // 在绘制之前要绑定一下texture，告诉OpenGL我们要使用这个texture
         glBindVertexArray(triangle_VAO);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        texture2.bind();
+        glBindVertexArray(triangle_VAO1);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);
