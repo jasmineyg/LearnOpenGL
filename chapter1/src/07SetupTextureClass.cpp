@@ -104,12 +104,16 @@ auto main() -> int
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.use();
+		glActiveTexture(GL_TEXTURE0);
         texture1.bind(); // 在绘制之前要绑定一下texture，告诉OpenGL我们要使用这个texture
+		shader.set_int("texture1", 0);
+		glActiveTexture(GL_TEXTURE1);
+		texture2.bind();
+		shader.set_int("texture2", 1);
         glBindVertexArray(triangle_VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        texture2.bind();
-        glBindVertexArray(triangle_VAO1);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+//        glBindVertexArray(triangle_VAO1);
+//        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
