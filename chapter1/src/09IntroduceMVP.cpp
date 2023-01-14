@@ -25,6 +25,7 @@ auto main() -> int
     stbi_set_flip_vertically_on_load(true);
 
     Shader shader(MY_SHADER_DIR + std::string("08shader_vertex.glsl"), MY_SHADER_DIR + std::string("08shader_fragment.glsl"));
+    Shader shader1(MY_SHADER_DIR + std::string("08shader_vertex.glsl"), MY_SHADER_DIR + std::string("08shader_fragment.glsl"));
 
     std::array<float, 32> vertices = {
             // positions       // colors         // texture coords
@@ -57,17 +58,27 @@ auto main() -> int
         glm::mat4 view = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
         glm::mat4 projection = glm::mat4(1.0f);
         projection = glm::perspective(glm::radians(45.0f), 800.f / 600.f, 0.1f, 100.0f);//randians(fov),宽高比
-        view = glm::translate(view, glm::vec3(-1.0f+(float)glfwGetTime()*0.1f, 0.0f, -2.0f));//平移：x右 y上 z屏幕外
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.0f));//相机平移(?)：x右 y上 z屏幕外
         //         pass transformation matrices to the shader
         shader.set_mat4("projection", projection); // note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
         shader.set_mat4("view", view);
+
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, {0, 0, 0});
         //float angle = 90.0f;
+        model = glm::translate(model, {-1.0f+(float)glfwGetTime()*0.2f, 0, 0.0f});//模型平移
+        //model = glm::translate(model, {(float)sin(glfwGetTime()), 0, 0.0f});
         model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));//按vec3的比例旋转angle
         model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
+        /*
+         * 先旋转后平移会发生什么：由自转变成公转的感觉。。 为什么：平移的量也发生旋转
+         * 先缩放再平移旋转：平移和旋转程度也被缩放
+         * 正确的顺序：缩放 旋转 平移
+         * 在代码中应该翻过来，右乘矩阵
+         */
         shader.set_mat4("model", model);
+
         // -------------------- NEW END --------------------
+
         glActiveTexture(GL_TEXTURE0); //在一个shader里同时应用多个纹理，需要定义这一行
         triangle.render(shader);
         shader.set_int("texture1", 0);
