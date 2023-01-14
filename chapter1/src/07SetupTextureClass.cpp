@@ -14,7 +14,7 @@ auto pass_geometry_data_to_GPU(float vertices_array[], int vertices_array_size, 
  */
 float vertices[] = {
         // positions                   // colors                      // texture coords
-        0.8f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
+        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
         -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, // bottom left
         -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,   //top left
         0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f   // top right
@@ -24,7 +24,7 @@ float vertices1[] = {
         0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
         -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, // bottom left
         -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,   //top left
-        0.8f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f   // top right
+        0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f   // top right
 };
 unsigned int indices[] = {  // note that we start from 0!
         3,0,2,// first Triangle
