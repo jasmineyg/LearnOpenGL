@@ -47,13 +47,15 @@ auto main() -> int
                                             0,1,2};
     RenderableObject triangle(vertices.data(), sizeof(vertices), indices.data(), sizeof(indices), MY_TEXTURE_DIR + std::string("container.jpg"));
     RenderableObject triangle1(vertices1.data(), sizeof(vertices1), indices1.data(), sizeof(indices1), MY_TEXTURE_DIR + std::string("awesomeface.jpg"));
+    shader.set_int("texture1", 0);
+    shader.set_int("texture2", 1);
 
     while (!glfwWindowShouldClose(window))
     {
         process_input(window);
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
+        shader.use();
         // -------------------- NEW START --------------------
         glm::mat4 view = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
         glm::mat4 projection = glm::mat4(1.0f);
@@ -78,13 +80,18 @@ auto main() -> int
         shader.set_mat4("model", model);
 
         // -------------------- NEW END --------------------
-
         glActiveTexture(GL_TEXTURE0); //在一个shader里同时应用多个纹理，需要定义这一行
         triangle.render(shader);
-        shader.set_int("texture1", 0);
+
         glActiveTexture(GL_TEXTURE1);
+
+        model = glm::mat4(1.0f);
+        float angle = 90.0f;
+        model = glm::translate(model, {-0.8f, 0, 0.0f});//模型平移
+        model = glm::rotate(model, (float)angle, glm::vec3(0.0f, 0.0f, 1.0f));//按vec3的比例旋转angle
+        model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
+        shader.set_mat4("model", model);
         triangle1.render(shader);
-        shader.set_int("texture2", 1);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
