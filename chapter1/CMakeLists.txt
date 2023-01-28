@@ -9,7 +9,9 @@ set(SRCS
         07SetupTextureClass
         08SetupRenderObjectClass
         09IntroduceMVP
-        10Camera
+        10Input3D
+        11Camera
+        12SetUpCameraClass
         )
 
 foreach(SRC ${SRCS})

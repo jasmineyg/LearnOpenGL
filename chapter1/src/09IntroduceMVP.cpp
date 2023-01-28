@@ -25,7 +25,6 @@ auto main() -> int
     stbi_set_flip_vertically_on_load(true);
 
     Shader shader(MY_SHADER_DIR + std::string("08shader_vertex.glsl"), MY_SHADER_DIR + std::string("08shader_fragment.glsl"));
-    Shader shader1(MY_SHADER_DIR + std::string("08shader_vertex.glsl"), MY_SHADER_DIR + std::string("08shader_fragment.glsl"));
 
     std::array<float, 32> vertices = {
             // positions       // colors         // texture coords
