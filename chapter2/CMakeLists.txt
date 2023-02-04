@@ -1,5 +1,6 @@
 set(SRCS
-        00BasicLight
+        00Color
+        01BasicLight
         )
 
 foreach(SRC ${SRCS})
