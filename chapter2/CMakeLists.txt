@@ -1,6 +1,7 @@
 set(SRCS
         00Color
         01BasicLight
+        02Materials
         )
 
 foreach(SRC ${SRCS})
