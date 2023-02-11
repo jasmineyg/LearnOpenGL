@@ -15,6 +15,7 @@ struct Light {
 uniform Light light;
 uniform Material material;
 uniform vec3 viewPos;
+uniform sampler2D EmissionMap;
 
 out vec4 FragColor;
 
@@ -39,6 +40,9 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
 
-    FragColor = vec4(ambient + diffuse + specular, 1.0);
+    //放射光
+    vec3 emission = texture(EmissionMap, TexCoords).xyz;
+
+    FragColor = vec4(ambient + diffuse + specular + emission, 1.0);
 }
 

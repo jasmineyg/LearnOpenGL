@@ -49,7 +49,7 @@ auto main() -> int {
                       MY_SHADER_DIR + std::string("00light_fragment.glsl"));
 
     std::array<float, 288> vertices = {
-            // positions          // normals           // texture coords
+            // positions         // normals        // texture coords
             -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
             0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
             0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
@@ -105,12 +105,13 @@ auto main() -> int {
                                             30, 31, 32,
                                             33, 34, 35,
     };
-    RenderableObject triangle(vertices.data(), sizeof(vertices), indices.data(), sizeof(indices),
-                              MY_TEXTURE_DIR + std::string("container2.png"));
-//    RenderableObject specular(vertices.data(), sizeof(vertices), indices.data(), sizeof(indices),
-//                              MY_TEXTURE_DIR + std::string("container2_specular.png"));
-    RenderableObject light(vertices.data(), sizeof(vertices), indices.data(), sizeof(indices),
-                           MY_TEXTURE_DIR + std::string("container2_specular.png"));
+
+    RenderableObject triangle(vertices.data(), sizeof(vertices), indices.data(), sizeof(indices));
+    Texture texture1(MY_TEXTURE_DIR + std::string("container2.png"));
+    Texture texture2(MY_TEXTURE_DIR + std::string("container2_specular.png"));
+    Texture texture3(MY_TEXTURE_DIR + std::string("matrix.jpg"));
+    RenderableObject light(vertices.data(), sizeof(vertices), indices.data(), sizeof(indices));
+
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     while (!glfwWindowShouldClose(window)) {
@@ -127,6 +128,7 @@ auto main() -> int {
         shader.use();
         shader.set_int("material.diffuse", 0);
         shader.set_int("material.specular", 1);
+        shader.set_int("EmissionMap", 2);
         shader.set_vec3("material.specular", 1.0f, 1.0f, 1.0f);
         shader.set_float("material.shininess", 64.0f);
 
@@ -156,11 +158,14 @@ auto main() -> int {
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
         shader.set_mat4("model", model);
         glActiveTexture(GL_TEXTURE0); //在一个shader里同时应用多个纹理，需要定义这一行
-        shader.set_int("texture1", 0);
+        texture1.bind();
         triangle.render(shader);
         glActiveTexture(GL_TEXTURE1);
-        shader.set_int("texture2", 1);
-//        specular.render(shader);
+        texture2.bind();
+        triangle.render(shader);
+        glActiveTexture(GL_TEXTURE2);
+        texture3.bind();
+        triangle.render(shader);
 
         lampshader.use();
         model = glm::mat4(1.0f);
