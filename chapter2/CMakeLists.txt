@@ -5,6 +5,7 @@ set(SRCS
         03LightingMaps
         04LightCasters
         04LightCastersAttenuation
+        04LightCastersSpotlight
         )
 
 foreach(SRC ${SRCS})
