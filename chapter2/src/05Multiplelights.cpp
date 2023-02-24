@@ -133,9 +133,8 @@ auto main() -> int {
 
     while (!glfwWindowShouldClose(window)) {
         process_input(window);
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClearColor(0.2f, 0.3f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glm::vec3 lightPos(1.2f, 1.0f * sin((float) glfwGetTime()), 2.0f);
 
         // -------------------- NEW START --------------------
         auto currentFrame = static_cast<float>(glfwGetTime());
@@ -187,7 +186,7 @@ auto main() -> int {
         shader.set_vec3("spotLight.position", camera.Position);
         shader.set_vec3("spotLight.direction", camera.Front);
         shader.set_float("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-        shader.set_float("spotLight.outerCutOff", glm::cos(glm::radians(17.5f)));
+        shader.set_float("spotLight.outerCutOff", glm::cos(glm::radians(20.5f)));
         shader.set_vec3("spotLight.ambient", 0.1f, 0.1f, 0.1f);
         shader.set_vec3("spotLight.diffuse", 0.8f, 0.8f, 0.8f);
         shader.set_vec3("spotLight.specular", 1.0f, 1.0f, 1.0f);

@@ -119,9 +119,9 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     vec3 lightDir = normalize(light.position - FragPos);
 
     // 漫反射着色
-    float diff = max(dot(normal, light.direction), 0.0);
+    float diff = max(dot(normal, lightDir), 0.0);
     // 镜面光着色
-    vec3 reflectDir = reflect(-light.direction, normal);
+    vec3 reflectDir = reflect(-lightDir, normal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 
     float theta = dot(lightDir, normalize(-light.direction));
