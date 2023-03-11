@@ -16,7 +16,7 @@ auto read_file(const std::string &file_path) -> std::string;
  * 我们给每个顶点都设置上颜色，这样我们就可以在片段着色器里面使用这个颜色了。
  */
 float vertices[] = {
-        // positions         // colors
+        // positions                    // colors
         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom right
         -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom left
         0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f   // top
