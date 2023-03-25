@@ -1,5 +1,7 @@
 set(SRCS
         01AddModel
+        02DepthTesting
+        03StencilTesting
         )
 
 foreach(SRC ${SRCS})
