@@ -40,7 +40,7 @@ auto main() -> int
     init_glad();
 
     Shader shader(MY_SHADER_DIR + std::string("01shader_vertex.glsl"), MY_SHADER_DIR + std::string("01shader_fragment.glsl"));
-    Shader shaderSingleColor(MY_SHADER_DIR + std::string("01shader_vertex.glsl"), MY_SHADER_DIR + std::string("03shaderSingleColor.glsl"));
+    Shader shaderSingleColor(MY_SHADER_DIR + std::string("01shader_vertex.glsl"), MY_SHADER_DIR + std::string("03shaderSingleColor"));
 
     std::array<float, 288> cube_vertices = {
             // positions         // colors         // texture coords
