@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+#include <map>
 
 void init_glfw();
 
@@ -46,7 +47,7 @@ auto main() -> int {
     init_glad();
 
     Shader shader(MY_SHADER_DIR + std::string("01shader_vertex.glsl"),
-                  MY_SHADER_DIR + std::string("04shader_fragment.glsl"));
+                  MY_SHADER_DIR + std::string("04shader_fragment2.glsl"));
 
     std::array<float, 288> cube_vertices = {
             // positions         // colors         // texture coords
@@ -136,7 +137,7 @@ auto main() -> int {
                                                        3, 4, 5,
     };
 
-    std::vector<glm::vec3> vegetation = {
+    std::vector<glm::vec3> windows = {
             glm::vec3(-1.5f, 0.0f, -0.48f),
             glm::vec3(1.5f, 0.0f, 0.51f),
             glm::vec3(0.0f, 0.0f, 0.7f),
@@ -148,8 +149,8 @@ auto main() -> int {
     Texture texture1(MY_TEXTURE_DIR + std::string("marble.jpg"));
     Object plane(plane_vertices.data(), sizeof(plane_vertices), plane_indices.data(), sizeof(plane_indices));
     Texture texture2(MY_TEXTURE_DIR + std::string("metal.png"));
-    Object grass(transparent_vertices.data(), sizeof(transparent_vertices), transparent_indices.data(), sizeof(transparent_indices));
-    Texture texture3(MY_TEXTURE_DIR + std::string("grass.png"));
+    Object Window(transparent_vertices.data(), sizeof(transparent_vertices), transparent_indices.data(), sizeof(transparent_indices));
+    Texture texture3(MY_TEXTURE_DIR + std::string("blending_transparent_window.png"));
 
     shader.use();
     shader.set_int("texture1", 0);
@@ -163,6 +164,10 @@ auto main() -> int {
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS); // 在片段深度值小于缓冲的深度值时通过测试
+
+        ///启用混合
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         auto currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
@@ -193,15 +198,23 @@ auto main() -> int {
         shader.set_mat4("model", glm::mat4(1.0f));
         plane.render(shader);
 
-        ///画草
         glActiveTexture(GL_TEXTURE0);
         texture3.bind();
-        for (unsigned int i = 0; i < vegetation.size(); i++)
+        ///深度排序
+        std::map<float, glm::vec3> sorted;
+        for (unsigned int i = 0; i < windows.size(); i++)
+        {
+            float distance = glm::length(camera.Position - windows[i]);
+            sorted[distance] = windows[i];
+        }
+
+        ///画窗
+        for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
         {
             model = glm::mat4(1.0f);
-            model = glm::translate(model, vegetation[i]);
+            model = glm::translate(model, it->second);
             shader.set_mat4("model", model);
-            grass.render(shader);
+            Window.render(shader);
         }
 
         glfwSwapBuffers(window);

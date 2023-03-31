@@ -24,13 +24,13 @@ const char *my_fragment_shader_source = "#version 330 core\n"
                                         "out vec4 FragColor;\n"
                                         "void main()\n"
                                         "{\n"
-                                        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+                                        "   FragColor = vec4(0.2f, 0.5f, 0.2f, 1.0f);\n"    //在这里改图形颜色
                                         "}\n\0";
 
 auto compile_shader(const char *vertex_shader_source, const char *fragment_shader_source) -> unsigned int
 {
     // 编译Vertex Shader
-    unsigned int vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
+    unsigned int vertex_shader_id = glCreateShader(GL_VERTEX_SHADER); //占用一块内存
     glShaderSource(vertex_shader_id, 1, &vertex_shader_source, nullptr);
     glCompileShader(vertex_shader_id);
 
@@ -85,15 +85,30 @@ auto compile_shader(const char *vertex_shader_source, const char *fragment_shade
  * 我们有了Shader之后，我们就需要提供能够渲染的数据了。
  * 我们这里就用一个比较简单的三角形来作为渲染的源数据。
  */
-float vertices[] = {0.5f, 0.5f, 0.0f,  // top right
-                    0.5f, -0.5f, 0.0f,  // bottom right
+float vertices1[] = {0.7f, 0.7f, 0.0f,  // top right
+                    0.7f, -0.7f, 0.0f,  // bottom right
                     -0.5f, -0.5f, 0.0f,  // bottom left
                     -0.5f, 0.5f, 0.0f   // top left
 };
-unsigned int indices[] = {  // note that we start from 0!
+
+float vertices[] = {0.5f, 0.5f, 0.0f,  // top right
+                    0.5f, -0.5f, 0.0f,  // bottom right
+                    -1.5f, -1.5f, 0.0f,  // bottom left
+                    -0.5f, 0.5f, 0.0f,   // top left
+                    0.0f,0.0f,0.0f    //middle
+};
+
+unsigned int indices1[] = {  // note that we start from 0!
         0, 1, 3,  // first Triangle
         1, 2, 3   // second Triangle
 };
+
+//沙漏
+unsigned int indices[] = {  // note that we start from 0!
+        0, 3, 4,  // first Triangle
+        1, 2, 4   // second Triangle
+};
+
 auto pass_geometry_data_to_GPU(float vertices_array[], int vertices_array_size, unsigned int indices_array[], int indices_array_size) -> unsigned int
 {
     unsigned int VAO, VBO, EBO;
@@ -131,6 +146,7 @@ auto main() -> int
      */
     unsigned int shader_program_id = compile_shader(my_vertex_shader_source, my_fragment_shader_source);
     unsigned int triangle_VAO = pass_geometry_data_to_GPU(vertices, sizeof(vertices), indices, sizeof(indices));
+    unsigned int triangle_VAO1 = pass_geometry_data_to_GPU(vertices1, sizeof(vertices1), indices1, sizeof(indices1));
     // -------------------- NEW END --------------------
 
     while (!glfwWindowShouldClose(window))
@@ -146,7 +162,9 @@ auto main() -> int
         glUseProgram(shader_program_id); // 绘制之前一定要指定使用哪个shader program
         glBindVertexArray(triangle_VAO); // 指定想要绘制的图形的数据（这里是两个三角形）
         //        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // 在绘制之前，我们可以选择指定线框模式绘制（如果要回到原来的模式，一定要在设置一遍glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)给它设置回来）
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // 绘制两个三角形
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // 绘制两个三角形glDrawElements
+        glBindVertexArray(triangle_VAO1);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         // -------------------- NEW END --------------------
 
         glfwSwapBuffers(window);
