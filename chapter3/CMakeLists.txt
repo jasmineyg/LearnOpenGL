@@ -4,6 +4,7 @@ set(SRCS
         03StencilTesting
         04Blending
         04Blending2
+        05FaceCulling
         )
 
 foreach(SRC ${SRCS})
