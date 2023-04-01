@@ -158,7 +158,7 @@ auto main() -> int {
 
     std::array<float, 48> plane_vertices = {
             // positions         // colors         // texture coords
-            //逆时针
+            //改称逆时针了也还是没出来why，，，
             5.0f, -0.5f, 5.0f, 1.0f, 1.0f, 1.0f, 2.0f, 0.0f,
             -5.0f, -0.5f, 5.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
             -5.0f, -0.5f, -5.0f, 1.0f, 1.0f, 1.0f, 0.0f, 2.0f,
