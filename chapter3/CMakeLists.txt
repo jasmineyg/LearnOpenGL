@@ -5,6 +5,7 @@ set(SRCS
         04Blending
         04Blending2
         05FaceCulling
+        06Framebuffers
         )
 
 foreach(SRC ${SRCS})

@@ -159,17 +159,17 @@ auto main() -> int {
     std::array<float, 48> plane_vertices = {
             // positions         // colors         // texture coords
             //改称逆时针了也还是没出来why，，，
-            5.0f, -0.5f, 5.0f, 1.0f, 1.0f, 1.0f, 2.0f, 0.0f,
+            5.0f, -0.5f, 5.0f, 1.0f, 1.0f, 1.0f, 0.0f, 2.0f,
             -5.0f, -0.5f, 5.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
-            -5.0f, -0.5f, -5.0f, 1.0f, 1.0f, 1.0f, 0.0f, 2.0f,
+            -5.0f, -0.5f, -5.0f, 1.0f, 1.0f, 1.0f, 2.0f, 0.0f,
 
-            5.0f, -0.5f, 5.0f, 1.0f, 1.0f, 1.0f, 2.0f, 0.0f,
-            -5.0f, -0.5f, -5.0f, 1.0f, 1.0f, 1.0f, 0.0f, 2.0f,
+            5.0f, -0.5f, 5.0f, 1.0f, 1.0f, 1.0f, 0.0f, 2.0f,
+            -5.0f, -0.5f, -5.0f, 1.0f, 1.0f, 1.0f, 2.0f, 0.0f,
             5.0f, -0.5f, -5.0f, 1.0f, 1.0f, 1.0f, 2.0f, 2.0f
     };
 
-    std::array<unsigned int, 36> plane_indices = {0, 1, 2,
-                                                  3, 4, 5,
+    std::array<unsigned int, 36> plane_indices = {0, 2, 1,
+                                                  3, 5, 4,
     };
     std::array<float, 48> transparent_vertices = {
             0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
